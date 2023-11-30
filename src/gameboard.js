@@ -21,18 +21,20 @@ const createBoard = function createBoardArr(){
 
 const gameboard = function gameboard(){
     const board = createBoard();
+    const boardArr = [];
+    boardArr.push(...board);
     const shipsOnBoard = [];
     const missedShots = [];
     const placeShip = function placeShip(length, startCoord, endCoord){
         const myShip = ship(length);
         shipsOnBoard.push(myShip);
-        const startCoordObj = board.find((element) => element.name === startCoord);
-        const endCoordObj = board.find((element) => element.name === endCoord);
+        const startCoordObj = boardArr.find((element) => element.name === startCoord);
+        const endCoordObj = boardArr.find((element) => element.name === endCoord);
         startCoordObj.shipOnSpace = myShip;
         endCoordObj.shipOnSpace = myShip;
     };
     const receiveAttack = function receiveAttack(coordinates){
-        const coordinateOnBoard = board.find((element) => element.name === coordinates);
+        const coordinateOnBoard = boardArr.find((element) => element.name === coordinates);
         if(coordinateOnBoard.shipOnSpace){
             coordinateOnBoard.shipOnSpace.hit();
             return "Ship hit!";
@@ -40,14 +42,14 @@ const gameboard = function gameboard(){
         missedShots.push(coordinates);
         return "Miss";
     };
-    let allSunk = false;
+    const allSunk = false;
     const checkIfAllShipsSunk = function checkIfAllShipsSunk(){
         if(shipsOnBoard.every((element) => element.sunk === "sunk")){
-            allSunk = true;
+            this.allSunk = true;
             return "All ships sunk";
         };
     };
-    return { board, placeShip, receiveAttack, checkIfAllShipsSunk }
+    return { boardArr, placeShip, receiveAttack, checkIfAllShipsSunk }
 };
 
 export default gameboard;
