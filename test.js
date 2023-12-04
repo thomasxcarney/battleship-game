@@ -36,6 +36,12 @@ describe('gameboard factory tests', () => {
         expect(myGameboard.boardArr[10].shipOnSpace).toBeInstanceOf(Object);
     });
 
+    test('placing ships marks all spaces in between coordinates as occupied by ship', () => {
+        const myGameboard = gameboard();
+        myGameboard.placeShip(2, 'A1', 'A3');
+        expect(myGameboard.boardArr[1].shipOnSpace).toBeInstanceOf(Object);
+    });
+
     test('receiveAttack function takes coordinates and checks if attack hit ship', () => {
         const myGameboard = gameboard();
         myGameboard.placeShip(2, 'A1', 'B1');

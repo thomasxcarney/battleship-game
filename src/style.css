@@ -1,0 +1,44 @@
+* {
+    padding: 0;
+    margin: 0;
+}
+
+body {
+    display: grid;
+    grid-template-rows: min-content 1fr;
+}
+
+#header {
+    color: red;
+    background-color: black;
+}
+
+#game {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr;
+    width: 100vw;
+    height: auto;
+}
+
+.board-container {
+    display: grid;
+    grid-template-columns: repeat(10, 1fr);
+    grid-template-rows: repeat(10, 1fr);
+    width: 50vw;
+    border: 2px solid red;
+    aspect-ratio: 1/1;
+}
+
+.gridSquare {
+    background-color: black;
+    color: red;
+    height: 100%;
+    border: 1px solid green;
+    aspect-ratio: 1/1;
+    text-align: center;
+}
+
+.hasShip {
+    background-color: grey;
+}

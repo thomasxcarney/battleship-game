@@ -1,4 +1,4 @@
-import ship from './ship';
+import ship from './ship.js';
 
 const createBoard = function createBoardArr(){
     const xAxisArr = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'];
@@ -30,8 +30,15 @@ const gameboard = function gameboard(){
         shipsOnBoard.push(myShip);
         const startCoordObj = boardArr.find((element) => element.name === startCoord);
         const endCoordObj = boardArr.find((element) => element.name === endCoord);
-        startCoordObj.shipOnSpace = myShip;
-        endCoordObj.shipOnSpace = myShip;
+        if(startCoordObj.name[0] === endCoordObj.name[0]){
+            for(let i=boardArr.indexOf(startCoordObj); i <= boardArr.indexOf(endCoordObj);i+=1){
+                boardArr[i].shipOnSpace = myShip;
+            };
+        } else if(startCoordObj.name[1] === endCoordObj.name[1]){
+            for(let i=boardArr.indexOf(startCoordObj); i <= boardArr.indexOf(endCoordObj);i+=10){
+                boardArr[i].shipOnSpace = myShip;
+            };
+        };
     };
     const receiveAttack = function receiveAttack(coordinates){
         const coordinateOnBoard = boardArr.find((element) => element.name === coordinates);
