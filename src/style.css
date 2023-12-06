@@ -5,12 +5,24 @@
 
 body {
     display: grid;
-    grid-template-rows: min-content 1fr;
+    grid-template-rows: min-content min-content 1fr;
 }
 
 #header {
     color: red;
     background-color: black;
+    text-align: center;
+}
+
+#game-info {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr;
+    text-align: center;
+}
+
+.isTurn {
+    color: red;
 }
 
 #game {
@@ -41,4 +53,12 @@ body {
 
 .hasShip {
     background-color: grey;
+}
+
+.hit-cell {
+    color: white;
+}
+
+.miss-cell {
+    color: blue;
 }

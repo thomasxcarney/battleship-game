@@ -20,6 +20,7 @@ const createBoard = function createBoardArr(){
 };
 
 const gameboard = function gameboard(){
+    const name = null;
     const board = createBoard();
     const boardArr = [];
     boardArr.push(...board);
@@ -44,19 +45,19 @@ const gameboard = function gameboard(){
         const coordinateOnBoard = boardArr.find((element) => element.name === coordinates);
         if(coordinateOnBoard.shipOnSpace){
             coordinateOnBoard.shipOnSpace.hit();
-            return "Ship hit!";
+            return 'hit';
         };
         missedShots.push(coordinates);
-        return "Miss";
+        return 'miss';
     };
     const allSunk = false;
     const checkIfAllShipsSunk = function checkIfAllShipsSunk(){
         if(shipsOnBoard.every((element) => element.sunk === "sunk")){
             this.allSunk = true;
-            return "All ships sunk";
-        };
+            return true;
+        } return false;
     };
-    return { boardArr, placeShip, receiveAttack, checkIfAllShipsSunk }
+    return { name, boardArr, placeShip, receiveAttack, checkIfAllShipsSunk }
 };
 
 export default gameboard;

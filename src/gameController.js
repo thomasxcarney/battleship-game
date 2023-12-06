@@ -3,9 +3,12 @@ import { player, compPlayer } from "./player.js";
 
 const gameLoop = function runGameLoop() {
     const player1 = player();
+    player1.board = gameboard();
+    player1.board.name = 'player1';
     const computerPlayer = compPlayer();
-    const playerBoard = gameboard();
-    const computerBoard = gameboard();
+    computerPlayer.board = gameboard();
+    computerPlayer.board.name = 'computerPlayer';
+
     const placeShips = function placeShips(board){
         board.placeShip(5, 'A1', 'A5');
         board.placeShip(4, 'C1', 'C4');
@@ -13,9 +16,31 @@ const gameLoop = function runGameLoop() {
         board.placeShip(3, 'H1', 'H3');
         board.placeShip(2, 'I9', 'J9');
     };
-    placeShips(playerBoard);
-    placeShips(computerBoard);
-    return { playerBoard, computerBoard }
+    placeShips(player1.board);
+    placeShips(computerPlayer.board);
+
+    const checkForGameOver = function checkForGameOver(){
+        if(player1.board.checkIfAllShipsSunk()){
+            alert("Game over! Player Loses");
+        } else if(computerPlayer.board.checkIfAllShipsSunk()){
+            alert("Game over! Player Wins");
+        };
+    };
+
+    const switchTurns = function switchTurns(){
+        checkForGameOver();
+        if(player1.isTurn){
+            player1.isTurn = false;
+            computerPlayer.isTurn = true;
+        } else if(computerPlayer.isTurn){
+            player1.isTurn = true;
+            computerPlayer.isTurn = false;
+        };
+        player1.checkTurn();
+        computerPlayer.checkTurnAndAttack(player1.board.boardArr);
+    };
+
+    return { player1, computerPlayer, switchTurns }
 };
 
 export default gameLoop;
