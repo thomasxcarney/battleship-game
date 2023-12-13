@@ -1,4 +1,5 @@
-const ship = function createShip(lengthOfShip){
+const ship = function createShip(lengthOfShip, shipName){
+    const name = shipName;
     const length = lengthOfShip;
     const hits = 0;
     const sunk = 'not sunk';
@@ -11,7 +12,7 @@ const ship = function createShip(lengthOfShip){
         this.hits+=1;
         this.isSunk();
     };
-    return {length, hits, sunk, hit, isSunk};
+    return {name, length, hits, sunk, hit, isSunk};
 };
 
 export default ship;

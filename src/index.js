@@ -7,15 +7,11 @@ const gameContainer = document.getElementById('game');
 const myGameLoop = gameLoop();
 
 const createBoards = function createAndPopulateGameboardContainers(){
-    const playerBoardContainer = document.createElement('div');
-    playerBoardContainer.setAttribute('id', 'playerBoardContainer');
-    playerBoardContainer.classList.add('board-container');
-    const computerBoardContainer = document.createElement('div');
-    computerBoardContainer.setAttribute('id', 'computerBoardContainer');
-    computerBoardContainer.classList.add('board-container');
-    gameContainer.append(computerBoardContainer, playerBoardContainer);
+    const playerBoardContainer = document.getElementById('playerBoardContainer');
+    const computerBoardContainer = document.getElementById('computerBoardContainer');
     const playerBoard = myGameLoop.player1.board;
     const computerBoard = myGameLoop.computerPlayer.board;
+
     const addCellEventListener = function addCellEventListener(cell, cellInArr, board, player){
         cell.addEventListener('click', () => {
             if(!player.isTurn){
@@ -42,8 +38,28 @@ const createBoards = function createAndPopulateGameboardContainers(){
             container.append(gridContainer);
         });
     };
-    createHTMLBoard(playerBoard, playerBoardContainer, myGameLoop.player1);
+
+    const reloadHTMLBoard = function reloadHTMLBoard(board, container, player){
+        container.innerHTML = '';
+        createHTMLBoard(board, container, player)
+    };
+
+    const addPlaceShipsBtnEventListener = function addPlaceShipsBtnEventListener(){
+        const placePlayerShipsBtn = document.getElementById('place-ships-button');
+        placePlayerShipsBtn.addEventListener('click', () => {
+            myGameLoop.player1.placePlayerShips();
+            reloadHTMLBoard(playerBoard, playerBoardContainer, myGameLoop.player1);
+        });
+        const placeCompShipsBtn = document.getElementById('place-comp-ships-button');
+        placeCompShipsBtn.addEventListener('click', () => {
+            myGameLoop.computerPlayer.placeComputerShips();
+            reloadHTMLBoard(computerBoard, computerBoardContainer, myGameLoop.computerPlayer);
+        });
+    };
+    
     createHTMLBoard(computerBoard, computerBoardContainer, myGameLoop.computerPlayer);
+    createHTMLBoard(playerBoard, playerBoardContainer, myGameLoop.player1);
+    addPlaceShipsBtnEventListener();
 };
 
 createBoards();
