@@ -42,23 +42,6 @@ body {
     aspect-ratio: 1/1;
 }
 
-/* .container-for-board-and-labels {
-    grid-template-columns: 1fr 1fr;
-    grid-template-rows: 1fr 1fr;
-}
-
-#yAxisLabelContainerPlayer {
-    display: grid;
-    grid-template-columns: 1fr;
-    grid-template-rows: repeat(10, 1fr);
-}
-
-#xAxisLabelContainerPlayer {
-    display: grid;
-    grid-template-rows: 1fr;
-    grid-template-columns: repeat(9, 1fr);
-} */
-
 .gridSquare {
     background-color: black;
     color: red;
@@ -70,7 +53,15 @@ body {
     align-items: center;
 }
 
-.hasShip {
+.gridSquare:hover {
+    cursor: pointer;
+}
+
+#playerBoardContainer .hasShip {
+    background-color: grey;
+}
+
+#computerBoardContainer .sunk {
     background-color: grey;
 }
 

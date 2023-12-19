@@ -17,6 +17,14 @@ const createBoards = function createAndPopulateGameboardContainers(){
             if(!player.isTurn){
                 if(board.receiveAttack(cellInArr.name) === 'hit'){
                     cell.classList.add('hit-cell');
+                } else if (Array.isArray(board.receiveAttack(cellInArr.name))){
+                    cell.classList.add('hit-cell');
+                    const shipName = board.receiveAttack(cellInArr.name)[1];
+                    const allCellsForShip = document.getElementsByClassName(shipName);
+                    const allCellsForShipArr = [...allCellsForShip];
+                    allCellsForShipArr.forEach((element) => {
+                        element.classList.add('sunk');
+                    });
                 } else if (board.receiveAttack(cellInArr.name) === 'miss'){
                     cell.classList.add('miss-cell');
                 };
@@ -32,7 +40,8 @@ const createBoards = function createAndPopulateGameboardContainers(){
             gridContainer.classList.add('gridSquare');
             gridContainer.setAttribute('id', `${board.name  } ${  element.name}`);
             if(element.shipOnSpace != null){
-                gridContainer.classList.add('hasShip');
+                const shipName = element.shipOnSpace.name;
+                gridContainer.classList.add('hasShip', shipName);
             };
             gridContainer.innerHTML = element.name;
             container.append(gridContainer);
@@ -51,9 +60,13 @@ const createBoards = function createAndPopulateGameboardContainers(){
             reloadHTMLBoard(playerBoard, playerBoardContainer, myGameLoop.player1);
         });
         const placeCompShipsBtn = document.getElementById('place-comp-ships-button');
+        let computerShipsPlaced = false;
         placeCompShipsBtn.addEventListener('click', () => {
-            myGameLoop.computerPlayer.placeComputerShips();
-            reloadHTMLBoard(computerBoard, computerBoardContainer, myGameLoop.computerPlayer);
+            if(!computerShipsPlaced){
+                myGameLoop.computerPlayer.placeComputerShips();
+                computerShipsPlaced = true;
+                reloadHTMLBoard(computerBoard, computerBoardContainer, myGameLoop.computerPlayer);
+            };
         });
     };
     

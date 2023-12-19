@@ -24,7 +24,7 @@ const createShipsToPlace = function createShipsToPlace(){
     const battleship = ship(4, 'battleship');
     const destroyer = ship(3, 'destroyer');
     const submarine = ship(3, 'submarine');
-    const patrolBoat = ship(2, 'patrol boat');
+    const patrolBoat = ship(2, 'patrol-boat');
     const shipsToPlaceArr = [];
     shipsToPlaceArr.push(carrier, battleship, destroyer, submarine, patrolBoat);
     return shipsToPlaceArr;
@@ -38,25 +38,46 @@ const gameboard = function gameboard(){
     const shipsToPlace = createShipsToPlace();
     const shipsOnBoard = [];
     const missedShots = [];
-    const placeShip = function placeShip(length, startCoord, endCoord){
+    const placeShip = function placeShip(length, startCoord, endCoord, shipName){
         const myShip = ship(length);
-        shipsOnBoard.push(myShip);
+        myShip.name = shipName;
         const startCoordObj = boardArr.find((element) => element.name === startCoord);
         const endCoordObj = boardArr.find((element) => element.name === endCoord);
+        let lengthCounter = 0;
+        const isLengthValid = function lengthValidation(){
+            if(lengthCounter > length){
+                return false;
+            } return true;
+        };
         if(startCoordObj.name[0] === endCoordObj.name[0]){
+            const coordinatesArr = [];
             for(let i=boardArr.indexOf(startCoordObj); i <= boardArr.indexOf(endCoordObj);i+=1){
-                boardArr[i].shipOnSpace = myShip;
+                lengthCounter+=1;
+                coordinatesArr.push(boardArr[i]);
+                if(boardArr[i].shipOnSpace != null){ 
+                    return 'already occupied';
+                };
             };
+            if(isLengthValid()){
+                coordinatesArr.forEach((element) => {element.shipOnSpace=myShip});
+            } else return 'length invalid';
         } else if(startCoordObj.name[1] === endCoordObj.name[1]){
             for(let i=boardArr.indexOf(startCoordObj); i <= boardArr.indexOf(endCoordObj);i+=10){
-                boardArr[i].shipOnSpace = myShip;
+                lengthCounter+=1;
+                if(boardArr[i].shipOnSpace != null){ return 'already occupied'};
+                if(isLengthValid()){
+                    boardArr[i].shipOnSpace = myShip;
+                } else return 'length invalid';
             };
-        };
+        } shipsOnBoard.push(myShip);
     };
     const receiveAttack = function receiveAttack(coordinates){
         const coordinateOnBoard = boardArr.find((element) => element.name === coordinates);
         if(coordinateOnBoard.shipOnSpace){
             coordinateOnBoard.shipOnSpace.hit();
+            if(coordinateOnBoard.shipOnSpace.sunk === 'sunk'){
+                return ['sunk', coordinateOnBoard.shipOnSpace.name];
+            }
             return 'hit';
         };
         missedShots.push(coordinates);
