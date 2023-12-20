@@ -44,8 +44,9 @@ const gameboard = function gameboard(){
         const startCoordObj = boardArr.find((element) => element.name === startCoord);
         const endCoordObj = boardArr.find((element) => element.name === endCoord);
         let lengthCounter = 0;
+
         const isLengthValid = function lengthValidation(){
-            if(lengthCounter > length){
+            if(lengthCounter > Number(length)){
                 return false;
             } return true;
         };
@@ -60,16 +61,24 @@ const gameboard = function gameboard(){
             };
             if(isLengthValid()){
                 coordinatesArr.forEach((element) => {element.shipOnSpace=myShip});
-            } else return 'length invalid';
-        } else if(startCoordObj.name[1] === endCoordObj.name[1]){
+                shipsOnBoard.push(myShip);
+                return 'success';
+            } return 'length invalid';
+        } if(startCoordObj.name[1] === endCoordObj.name[1]){
+            const coordinatesArr = [];
             for(let i=boardArr.indexOf(startCoordObj); i <= boardArr.indexOf(endCoordObj);i+=10){
                 lengthCounter+=1;
-                if(boardArr[i].shipOnSpace != null){ return 'already occupied'};
-                if(isLengthValid()){
-                    boardArr[i].shipOnSpace = myShip;
-                } else return 'length invalid';
+                coordinatesArr.push(boardArr[i]);
+                if(boardArr[i].shipOnSpace != null){ 
+                    return 'already occupied';
+                };
             };
-        } shipsOnBoard.push(myShip);
+            if(isLengthValid()){
+                coordinatesArr.forEach((element) => {element.shipOnSpace=myShip});
+                shipsOnBoard.push(myShip);
+                return 'success';
+            } return 'length invalid';
+        };
     };
     const receiveAttack = function receiveAttack(coordinates){
         const coordinateOnBoard = boardArr.find((element) => element.name === coordinates);

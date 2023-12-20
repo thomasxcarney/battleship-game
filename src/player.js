@@ -10,19 +10,23 @@ const player = function player(){
 
     const placePlayerShips = function placePlayerShips(){
         const shipsArr=this.board.shipsToPlace;
-        shipsArr.forEach((element) => {
-            const coordinates = prompt(`Enter coordinates to place ${  element.name} (${ element.length} cells long) format A1 A5`);
-            const coordinatesArr = coordinates.split(' ');
-            this.board.placeShip(`${ element.length}`, coordinatesArr[0].toUpperCase(), coordinatesArr[1].toUpperCase());
-            // const placeShip = this.board.placeShip(`${ element.length}`, coordinatesArr[0].toUpperCase(), coordinatesArr[1].toUpperCase());
-            // while(placeShip === 'length invalid'){
-            //     coordinates = prompt(`Invalid coordinates, try again. ${ element.name} is ${ element.length} cells long. format: A1 A5`);
-            //     if(coordinates == null){ return };
-            // };
-            // while(placeShip === 'already occupied'){
-            //     coordinates = prompt(`Invalid coordinates, try again. ${ element.name} is ${ element.length} cells long. format: A1 A5`);
-            // };
-            // this.board.placeShip(`${ element.length}`, coordinatesArr[0].toUpperCase(), coordinatesArr[1].toUpperCase());
+        shipsArr.forEach((arrElement) => {
+            const validateCoordinatesAndSendToBoard = function validateCoordinatesAndSendToBoard(element){
+                coordinates = prompt(`Invalid coordinates, try again. ${ element.name} is ${ element.length} cells long. format: A1 A5`);
+                coordinatesArr = coordinates.split(' ');
+                if(gameBoard.placeShip(`${ arrElement.length}`, coordinatesArr[0].toUpperCase(), coordinatesArr[1].toUpperCase()) === 'success'){
+                    return;
+                };
+                validateCoordinatesAndSendToBoard(arrElement);
+            };
+
+            const gameBoard = this.board;
+            let coordinates = prompt(`Enter coordinates to place ${  arrElement.name} (${ arrElement.length} cells long) format A1 A5`);
+            let coordinatesArr = coordinates.split(' ');
+            if(gameBoard.placeShip(`${ arrElement.length}`, coordinatesArr[0].toUpperCase(), coordinatesArr[1].toUpperCase()) === 'success'){
+                return;
+            };
+            validateCoordinatesAndSendToBoard(arrElement);
         });
     };
 
